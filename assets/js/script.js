@@ -5,32 +5,52 @@ var c_lowercase = String;
 var c_uppercase = String;
 var c_numbers = String;
 var c_special = String;
-var times = 0;
+var password = String;
 
 // Write password to the #password input
-function writePassword() {
-	var passwordText = document.querySelector("#password");
-	var terminate;
+	function writePassword() {
+	var v_cancel;
 
 	// Capture Password Criterias
 
-	passwordText.value = "Your Secure Password";
+	password = "Your Secure Password"; // Refresher for multiple iterations
+	write_pass();
 
-	terminate = confirm_length();
+	// The routine will stop if first question is cancelled
+	v_cancel = confirm_length();
 
-	if (terminate !== null) {
+	if (v_cancel !== null) {
 
-		passwordText.innerHTML = confirm_lowercase();
+		password = confirm_lowercase();
+		if (password !== "") {
+			alert(password);
+		}
 
-		passwordText.value += confirm_uppercase();
+		password += confirm_uppercase();
+		if (password !== "") {
+			alert(password);
+		}
 
-		passwordText.value += confirm_numbers();
-
-		passwordText.value += confirm_special();
-
-		passwordText.value = generatePassword();
+		password += confirm_numbers();
+		if (password !== "") {
+			alert(password);
+		}
+		password += confirm_special();
+		if (password !== "") {
+			alert(password);
+		}
+		
+		// Generate Password based on selected Criterias
+		password = generatePassword();
+		write_pass();
 	}
-}
+	}
+
+	function write_pass() {
+		var passwordText = document.querySelector("#password");
+
+		passwordText.value = password;
+	}
 
 	function generatePassword(chain) {
 		var random_type = ["num", "upp", "low", "sym"];
@@ -45,6 +65,7 @@ function writePassword() {
 					if (c_numbers) {
 						chain += random_number();
 						i++;
+						console.log(chain);
 					}
 				break;
 
@@ -52,6 +73,7 @@ function writePassword() {
 					if (c_uppercase) {
 						chain += random_uppercase();
 						i++;
+						console.log(chain);
 					}
 				break;
 
@@ -59,6 +81,7 @@ function writePassword() {
 					if (c_lowercase) {
 						chain += random_lowercase();
 						i++;
+						console.log(chain);
 					}
 				break;
 
@@ -66,6 +89,7 @@ function writePassword() {
 					if (c_special) {
 						chain +=random_special();
 						i++;
+						console.log(chain);
 					}
 				break;
 
@@ -75,6 +99,7 @@ function writePassword() {
 	}
 
 
+//---------------- *Capture Password Criterias Section* ---------------------------
 // Capture Length of New Password
 	function confirm_length() {
 		var valid = true;
@@ -99,16 +124,14 @@ function writePassword() {
 		return pass_length;
 	}
 
-
 // Capture if should include lowercase
 	function confirm_lowercase(chain) {
-		var passwordText = document.querySelector("#password");
-
 		c_lowercase = confirm("Should include Lowercase Letters?");
 		if (c_lowercase) {
 			chain = random_lowercase();
+		} else {
+			chain = "";
 		}
-		passwordText.value = chain;
 		console.log(chain);
 		return chain;
 	}
@@ -118,6 +141,8 @@ function writePassword() {
 		c_uppercase = confirm("Should include Uppercase Letters?");
 		if (c_uppercase) {
 			chain = random_uppercase();
+		} else {
+			chain = "";
 		}
 		console.log(chain);
 		return chain;
@@ -128,6 +153,8 @@ function writePassword() {
 		c_numbers = confirm("Should include Numbers?");
 		if (c_numbers) {
 			chain = random_number();
+		} else {
+			chain = "";
 		}
 		console.log(chain);
 		return chain;
@@ -138,12 +165,15 @@ function writePassword() {
 		c_special = confirm("Should include Special Characters?");
 		if (c_special) {
 			chain = random_special();
+		} else {
+			chain = "";
 		}
 		console.log(chain);
 		return chain;
 	}
 
-// Random Selection of Characters base on ASCII code table
+
+// ------- *Random Selection of Characters base on ASCII code table* -------
 
 function random_lowercase() {
 	return String.fromCharCode(Math.floor(Math.random() * 26) + 97);
