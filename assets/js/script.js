@@ -22,26 +22,19 @@ var password = String;
 	if (v_cancel !== null) {
 
 		password = confirm_lowercase();
-		if (password !== "") {
-			alert(password);
-		}
 
 		password += confirm_uppercase();
-		if (password !== "") {
-			alert(password);
-		}
 
 		password += confirm_numbers();
-		if (password !== "") {
-			alert(password);
-		}
+		
 		password += confirm_special();
-		if (password !== "") {
-			alert(password);
-		}
 		
 		// Generate Password based on selected Criterias
-		password = generatePassword();
+		if (password === "") {
+			alert("You have not selected any criteria")
+		} else {
+			password = generatePassword();
+		}
 		write_pass();
 	}
 	}
